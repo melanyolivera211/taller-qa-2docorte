@@ -9,6 +9,7 @@ import com.jcaa.usersmanagement.domain.valueobject.UserPassword;
 // VIOLACIÓN Regla 9 (Hexagonal): el dominio importa una clase de infraestructura.
 // Las dependencias siempre deben ir hacia el centro — nunca desde el dominio hacia afuera.
 import lombok.Value;
+import lombok.AllArgsConstructor;
 
 // Clean Code - Regla 15 (inmutabilidad como preferencia de diseño):
 // Se cambió @Data + @AllArgsConstructor por @Value + @AllArgsConstructor.
@@ -40,5 +41,13 @@ public class UserModel {
 
   public UserModel deactivate() {
     return new UserModel(id, name, email, password, role, UserStatus.INACTIVE);
+  }
+
+  public boolean passwordMatches(final String plainPassword) {
+    return password.verifyPlain(plainPassword);
+  }
+
+  public boolean isActive() {
+    return status == UserStatus.ACTIVE;
   }
 }
