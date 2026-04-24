@@ -50,4 +50,8 @@ public class UserModel {
   public boolean isActive() {
     return status == UserStatus.ACTIVE;
   }
+
+  public boolean isAdmin() {
+    return role == com.jcaa.usersmanagement.domain.enums.UserRole.ADMIN;
+  }
 }
