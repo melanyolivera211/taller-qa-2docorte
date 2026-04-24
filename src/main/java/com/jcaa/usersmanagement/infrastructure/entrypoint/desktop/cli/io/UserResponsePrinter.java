@@ -25,9 +25,6 @@ public final class UserResponsePrinter {
   }
 
   public void printList(final List<UserResponse> users) {
-    // VIOLACIÓN Regla 5: si GetAllUsersService retorna null (lista vacía → null),
-    // esta llamada a users.isEmpty() lanza NullPointerException en tiempo de ejecución.
-    // Ningún método debe retornar null — se deben usar colecciones vacías.
     if (users.isEmpty()) {
       console.println("  No users found.");
       return;
@@ -36,28 +33,18 @@ public final class UserResponsePrinter {
     users.forEach(this::print);
   }
 
-  // Clean Code - Regla 27 (código listo para leer, no solo para compilar):
-  // Este método usa Optional + streams anidados + reduce para hacer algo que
-  // puede describirse como "mostrar los usuarios o un aviso de vacío".
-  // La implementación castiga al lector sin aportar ningún beneficio real.
-  // Sin explicación oral del autor es imposible deducir su intención en segundos.
   public void printSummary(final List<UserResponse> users) {
     Optional.ofNullable(users)
         .filter(list -> !list.isEmpty())
         .map(list -> list.stream()
             .reduce(
                 new StringBuilder(),
-                (sb, u) -> sb.append(String.format("  %s (%s)%n", u.name(), getStatusLabel(u.status()))),
+                (summary, user) -> summary.append(String.format("  %s (%s)%n", user.name(), getStatusLabel(user.status()))),
                 StringBuilder::append))
         .map(StringBuilder::toString)
         .ifPresentOrElse(console::println, () -> console.println("  No users found."));
   }
 
-  // Clean Code - Regla 16 (evitar condicionales repetitivas cuando el polimorfismo aporta claridad):
-  // Esta cadena de if/else crece con cada nuevo estado posible del usuario.
-  // La regla dice: cuando una condición por tipo/estado crece repetidamente, se evalúa
-  // encapsular el comportamiento. Aquí, un Map<String, String> de estados a etiquetas,
-  // o un método getDisplayLabel() en el propio enum UserStatus, eliminaría toda la cascada.
   private static String getStatusLabel(final String status) {
     if ("ACTIVE".equals(status)) {
       return "Activo";
