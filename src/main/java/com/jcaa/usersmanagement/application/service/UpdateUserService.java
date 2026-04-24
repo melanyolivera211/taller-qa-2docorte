@@ -30,7 +30,7 @@ public final class UpdateUserService implements UpdateUserUseCase {
   private final Validator validator;
 
   @Override
-  public UserModel execute(final UpdateUserCommand command) {
+  public void execute(final UpdateUserCommand command) {
     validateCommand(command);
 
     final UserId userId = new UserId(command.id());
@@ -43,8 +43,6 @@ public final class UpdateUserService implements UpdateUserUseCase {
     final UserModel updatedUser = updateUserPort.update(userToUpdate);
 
     notifyUser(updatedUser);
-
-    return updatedUser;
   }
 
   private void validateCommand(final UpdateUserCommand command) {

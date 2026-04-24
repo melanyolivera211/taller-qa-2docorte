@@ -54,10 +54,9 @@ public final class UserController {
     return UserDesktopMapper.toResponse(user);
   }
 
-  public UserResponse updateUser(final UpdateUserRequest request) {
+  public void updateUser(final UpdateUserRequest request) {
     final var command = UserDesktopMapper.toUpdateCommand(request);
-    final var user = updateUserUseCase.execute(command);
-    return UserDesktopMapper.toResponse(user);
+    updateUserUseCase.execute(command);
   }
 
   public void deleteUser(final String id) {
