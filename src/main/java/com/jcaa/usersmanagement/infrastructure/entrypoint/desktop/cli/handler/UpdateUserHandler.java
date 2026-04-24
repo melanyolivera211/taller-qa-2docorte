@@ -27,7 +27,7 @@ public final class UpdateUserHandler implements OperationHandler {
     final String status=console.readRequired("Status (ACTIVE / INACTIVE / PENDING / BLOCKED): ");
 
     try {
-      final UserResponse upd = userController.updateUser(
+      userController.updateUser(
           new UpdateUserRequest(
               id,
               name,
@@ -36,7 +36,6 @@ public final class UpdateUserHandler implements OperationHandler {
               role,
               status));
       console.println("\n  User updated successfully.");
-      printer.print(upd);
     } catch (final UserNotFoundException exception) {
       console.println("  Not found: " + exception.getMessage());
     }
