@@ -2,18 +2,18 @@ package com.jcaa.usersmanagement.domain.exception;
 
 public final class InvalidCredentialsException extends DomainException {
 
+  private static final String WRONG_PASSWORD_MESSAGE = "The password provided is incorrect.";
+  private static final String INACTIVE_USER_MESSAGE = "The user is not active in the system.";
+
   private InvalidCredentialsException(final String message) {
     super(message);
   }
 
-  public static InvalidCredentialsException becauseCredentialsAreInvalid() {
-    // VIOLACIÓN Regla 10: texto de error hardcodeado directamente.
-    // Debe usarse una constante con nombre descriptivo en lugar de un String literal.
-    return new InvalidCredentialsException("Correo o contraseña incorrectos.");
+  public static InvalidCredentialsException becausePasswordIsWrong() {
+    return new InvalidCredentialsException(WRONG_PASSWORD_MESSAGE);
   }
 
-  public static InvalidCredentialsException becauseUserIsNotActive() {
-    // VIOLACIÓN Regla 10: texto de error hardcodeado directamente.
-    return new InvalidCredentialsException("Tu cuenta no está activa. Contacta al administrador.");
+  public static InvalidCredentialsException becauseUserIsInactive() {
+    return new InvalidCredentialsException(INACTIVE_USER_MESSAGE);
   }
 }
