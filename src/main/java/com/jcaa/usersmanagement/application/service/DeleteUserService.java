@@ -28,17 +28,10 @@ public final class DeleteUserService implements DeleteUserUseCase {
 
   @Override
   public void execute(final DeleteUserCommand command) {
-    // VIOLACIÓN Regla 6: try-catch sin posibilidad real de recuperar el flujo.
-    // Las excepciones no recuperables deben propagarse al manejador global, no capturarse aquí.
-    try {
-      validateCommand(command);
-      final UserId userId = UserApplicationMapper.fromDeleteCommandToUserId(command);
-      ensureUserExists(userId);
-      deleteUserPort.delete(userId);
-    } catch (final Exception e) {
-      logger.warning("Error al eliminar usuario: " + e.getMessage());
-      throw e;
-    }
+    validateCommand(command);
+    final UserId userId = UserApplicationMapper.fromDeleteCommandToUserId(command);
+    ensureUserExists(userId);
+    deleteUserPort.delete(userId);
   }
 
   private void validateCommand(final DeleteUserCommand command) {
